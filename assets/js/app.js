@@ -274,10 +274,33 @@ function LogoCallback() {
 
 function InitializeBasket() {
     // write code to start basket
+    let myBasket = localStorage.getItem('myBasket')
+
+     if (!myBasket) {
+        // console.log('There is no basket')  //RETURN THIS ERROR IF BASKET EMPTY OR CANT FIND BASKET idk
+    
+    
+    let newBasket = {
+        products: [],
+        total: 0
+    }
 
 
+
+UpdateBasketIcon(0)  //NOW THE BASKET SHOWS THE NUMBER 0 AND NOW CAN CHECK IN LOCAL STORAGE FOR DATA AND ARRAYS STUFF
+
+SaveBasketData(newBasket)
+
+
+
+} else {
+
+    let myData = JSON.parse(myBasket)
+
+    UpdateBasketIcon(myData.products.length)
 }
 
+}
 
 
 
@@ -285,15 +308,31 @@ function InitializeBasket() {
 
 function AddToBasket(productId) {
     // write code to add to basket you get product id
+    let myBasket = ReadLocalStorageData()
 
+    myBasket.products.push(productId);
+
+  SaveBasketData(myBasket)
 }
 
 //----------------------------------------------------------------------
 
 function BasketIconCallback() {
     // write code to get products from local storage and send them on to BuildBasket as an array of product objects
+    let myBasket = ReadLocalStorageData()
 
+    let myProducts = []
+    myBasket.products.forEach(productId => {
+        let myProduct = getProduct(productId)
+        if (myProduct) {
+
+            myProducts.push(myProduct)
+        }
+    });
+
+    BuildBasket(myProducts)
 }
+
 
 //----------------------------------------------------------------------
 
